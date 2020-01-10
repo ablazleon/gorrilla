@@ -1,1 +1,1 @@
-web: gunicorn gorrilla:app
+web: gunicorn app:app
