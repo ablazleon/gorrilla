@@ -1,9 +1,28 @@
 pipeline {
      agent any
-     stages {
-          stage ("Py3 Linting Check") {
-              steps {
-                    sh echo works
-          }                     
-     }
+       stages {  // Define the individual processes, or stages, of your CI pipeline
+         stage('Checkout') { // Checkout (git clone ...) the projects repository
+           steps {
+             checkout scm
+           }
+         }
+         stage('Setup') { // Install any dependencies you need to perform testing
+           steps {
+             script {
+               sh """
+               pip install -r requirements.txt
+               """
+             }
+           }
+         }
+         stage('Linting') { // Run pylint against your code
+           steps {
+             script {
+               sh """
+               pylint **/*.py
+               """
+             }
+           }
+         }
+      }
 }
